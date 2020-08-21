@@ -18,6 +18,8 @@ resource "aws_instance" "server" {
   }
 }
 
+# TODO: split out the different Linux targets (ubuntu, centos, arm, etc.) when
+# they're available
 resource "aws_instance" "client_linux" {
   ami                    = data.aws_ami.linux.image_id
   instance_type          = var.instance_type
@@ -46,6 +48,8 @@ resource "aws_instance" "client_linux" {
   }
 }
 
+# TODO: split out the different Windows targets (2016, 2019) when they're
+# available
 resource "aws_instance" "client_windows" {
   ami                    = data.aws_ami.windows.image_id
   instance_type          = var.instance_type

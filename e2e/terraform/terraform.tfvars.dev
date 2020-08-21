@@ -3,3 +3,5 @@ instance_type        = "t2.medium"
 server_count         = "3"
 client_count         = "2"
 windows_client_count = "0"
+
+#nomad_sha = "0d6b02b09963bf77558df8a5acc1d78be60471a5"

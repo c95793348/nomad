@@ -39,7 +39,17 @@ variable "windows_client_count" {
 }
 
 variable "nomad_sha" {
-  description = "The sha of Nomad to write to provisioning output"
+  description = "The sha of Nomad to provision"
+  default     = ""
+}
+
+variable "nomad_version" {
+  description = "The release version of Nomad to provision"
+  default     = ""
+}
+
+variable "nomad_local_binary" {
+  description = "The path to a local binary to provision"
   default     = ""
 }
 
@@ -56,4 +66,40 @@ variable "aws_assume_role_session_name" {
 variable "aws_assume_role_external_id" {
   description = "The AWS IAM external ID to assume (not used by human users)"
   default     = ""
+}
+
+variable "nomad_server_configs" {
+  description = "A list of lists of config files to upload to the cluster"
+  type        = list(list(string))
+  default     = []
+}
+
+variable "nomad_client_configs_linux" {
+  description = "A list of lists of config files to upload to the cluster"
+  type        = list(list(string))
+  default     = []
+}
+
+variable "nomad_client_configs_windows" {
+  description = "A list of lists of config files to upload to the cluster"
+  type        = list(list(string))
+  default     = []
+}
+
+variable "nomad_default_server_configs" {
+  description = "A default list of server config files"
+  type        = list(string)
+  default     = ["shared/nomad/base.hcl", "shared/nomad/server.hcl", "shared/nomad/nomad.service"]
+}
+
+variable "nomad_default_client_configs_linux" {
+  description = "A default list of linux client config files"
+  type        = list(string)
+  default     = ["shared/nomad/base.hcl", "shared/nomad/client.hcl", "shared/nomad/nomad.service"]
+}
+
+variable "nomad_default_client_configs_windows" {
+  description = "A default list of windows client config files"
+  type        = list(string)
+  default     = ["shared/nomad/base.hcl", "shared/nomad/client-windows.hcl"]
 }
