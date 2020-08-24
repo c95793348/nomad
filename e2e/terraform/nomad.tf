@@ -1,6 +1,6 @@
 module "nomad_server" {
 
-  depends_on = [aws_instance.server]
+  depends_on = [aws_instance.server, module.consul_server]
   count      = var.server_count
 
   source = "./install-nomad"
@@ -24,7 +24,7 @@ module "nomad_server" {
 # they're available
 module "nomad_client_linux" {
 
-  depends_on = [aws_instance.client_linux]
+  depends_on = [aws_instance.client_linux, module.consul_client_linux]
   count      = var.client_count
 
   source = "./install-nomad"
@@ -48,7 +48,7 @@ module "nomad_client_linux" {
 # available
 module "nomad_client_windows" {
 
-  depends_on = [aws_instance.client_windows]
+  depends_on = [aws_instance.client_windows, module.consul_client_windows]
   count      = var.windows_client_count
 
   source = "./install-nomad"

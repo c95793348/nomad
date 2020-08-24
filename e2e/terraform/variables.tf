@@ -103,3 +103,41 @@ variable "nomad_default_client_configs_windows" {
   type        = list(string)
   default     = ["shared/nomad/base.hcl", "shared/nomad/client-windows.hcl"]
 }
+
+
+variable "consul_server_configs" {
+  description = "A list of lists of config files to upload to the cluster"
+  type        = list(list(string))
+  default     = []
+}
+
+variable "consul_client_configs" {
+  description = "A list of lists of config files to upload to the cluster"
+  type        = list(list(string))
+  default     = []
+}
+
+variable "consul_default_server_configs" {
+  description = "A default list of server config files"
+  type = list(string)
+  default =   ["shared/consul/base.json", "shared/consul/server.json", "shared/consul/retry_aws.json"]
+}
+
+variable "consul_default_client_configs" {
+  description = "A default list of client config files"
+  type = list(string)
+  default =   ["shared/consul/base.json", "shared/consul/retry_aws.json"]
+}
+
+
+variable "vault_server_configs" {
+  description = "A list of lists of config files to upload to the cluster"
+  type        = list(list(string))
+  default     = []
+}
+
+variable "vault_default_server_configs" {
+  description = "A default list of server config files"
+  type = list(string)
+  default =   ["shared/vault/vault.hcl"]
+}
