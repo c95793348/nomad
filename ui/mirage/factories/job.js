@@ -20,7 +20,9 @@ export default Factory.extend({
 
   version: 1,
 
-  groupsCount: () => faker.random.number({ min: 1, max: 2 }),
+  groupsCount() {
+    return this.resourceSpec ? this.resourceSpec.length : faker.random.number({ min: 1, max: 2 });
+  },
 
   region: () => 'global',
   type: () => faker.helpers.randomize(JOB_TYPES),
@@ -135,9 +137,22 @@ export default Factory.extend({
       groupProps.count = job.groupTaskCount;
     }
 
-    const groups = job.noHostVolumes
-      ? server.createList('task-group', job.groupsCount, 'noHostVolumes', groupProps)
-      : server.createList('task-group', job.groupsCount, groupProps);
+    let groups;
+    if (job.noHostVolumes) {
+      groups = provide(job.groupsCount, (_, idx) =>
+        server.create('task-group', 'noHostVolumes', {
+          ...groupProps,
+          resourceSpec: job.resourceSpec && job.resourceSpec.length && job.resourceSpec[idx],
+        })
+      );
+    } else {
+      groups = provide(job.groupsCount, (_, idx) =>
+        server.create('task-group', {
+          ...groupProps,
+          resourceSpec: job.resourceSpec && job.resourceSpec.length && job.resourceSpec[idx],
+        })
+      );
+    }
 
     job.update({
       taskGroupIds: groups.mapBy('id'),
