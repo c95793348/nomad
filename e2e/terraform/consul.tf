@@ -5,7 +5,11 @@ module "consul_server" {
 
   source = "./install-consul"
 
-  config_files = count.index < length(var.consul_server_configs) ? var.consul_server_configs[count.index] : var.consul_default_server_configs
+  config_files = compact(setunion(
+    fileset(path.module, "config/consul/${var.profile}/*.hcl"),
+    fileset(path.module, "config/consul/${var.profile}/server/*.hcl"),
+    fileset(path.module, "config/consul/${var.profile}/server/indexed/*${count.index}.hcl"),
+  ))
 
   connection = {
     type        = "ssh"
@@ -25,7 +29,11 @@ module "consul_client_linux" {
 
   source = "./install-consul"
 
-  config_files = count.index < length(var.consul_client_configs) ? var.consul_client_configs[count.index] : var.consul_default_client_configs
+  config_files = compact(setunion(
+    fileset(path.module, "config/consul/${var.profile}/*.hcl"),
+    fileset(path.module, "config/consul/${var.profile}/client-linux/*.hcl"),
+    fileset(path.module, "config/consul/${var.profile}/client-linux/indexed/*${count.index}.hcl"),
+  ))
 
   connection = {
     type        = "ssh"
@@ -45,7 +53,11 @@ module "consul_client_windows" {
 
   source = "./install-consul"
 
-  config_files = count.index < length(var.consul_client_configs) ? var.consul_client_configs[count.index] : var.consul_default_client_configs
+  config_files = compact(setunion(
+    fileset(path.module, "config/consul/${var.profile}/*.hcl"),
+    fileset(path.module, "config/consul/${var.profile}/client-windows/*.hcl"),
+    fileset(path.module, "config/consul/${var.profile}/client-windows/indexed/*${count.index}.hcl"),
+  ))
 
   connection = {
     type        = "ssh"

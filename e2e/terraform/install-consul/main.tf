@@ -15,7 +15,7 @@ resource "null_resource" "upload_configs" {
 
   provisioner "file" {
     source      = each.key
-    destination = "/tmp/consul-${basename(each.key)}"
+    destination = "./consul.d/${basename(each.key)}"
   }
 }
 
@@ -35,7 +35,7 @@ resource "null_resource" "install_configs" {
   # instead so that we can bootstrap ACLs and mTLS
   provisioner "remote-exec" {
     inline = [
-      "sudo cp /tmp/consul-*.json /etc/consul.d/",
+      "sudo cp ./consul.d/* /etc/consul.d/",
       "sudo systemctl restart consul",
     ]
   }

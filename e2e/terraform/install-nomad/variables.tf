@@ -24,7 +24,7 @@ variable "nomad_local_binary" {
 
 variable "config_files" {
   type        = set(string)
-  description = "List of configuration files to upload"
+  description = "An explicit list of configuration files to upload (use one of config_files or config_profile)"
   default     = []
 }
 

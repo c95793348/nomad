@@ -68,76 +68,8 @@ variable "aws_assume_role_external_id" {
   default     = ""
 }
 
-variable "nomad_server_configs" {
-  description = "A list of lists of config files to upload to the cluster"
-  type        = list(list(string))
-  default     = []
-}
-
-variable "nomad_client_configs_linux" {
-  description = "A list of lists of config files to upload to the cluster"
-  type        = list(list(string))
-  default     = []
-}
-
-variable "nomad_client_configs_windows" {
-  description = "A list of lists of config files to upload to the cluster"
-  type        = list(list(string))
-  default     = []
-}
-
-variable "nomad_default_server_configs" {
-  description = "A default list of server config files"
-  type        = list(string)
-  default     = ["shared/nomad/base.hcl", "shared/nomad/server.hcl"]
-}
-
-variable "nomad_default_client_configs_linux" {
-  description = "A default list of linux client config files"
-  type        = list(string)
-  default     = ["shared/nomad/base.hcl", "shared/nomad/client.hcl"]
-}
-
-variable "nomad_default_client_configs_windows" {
-  description = "A default list of windows client config files"
-  type        = list(string)
-  default     = ["shared/nomad/base.hcl", "shared/nomad/client-windows.hcl"]
-}
-
-
-variable "consul_server_configs" {
-  description = "A list of lists of config files to upload to the cluster"
-  type        = list(list(string))
-  default     = []
-}
-
-variable "consul_client_configs" {
-  description = "A list of lists of config files to upload to the cluster"
-  type        = list(list(string))
-  default     = []
-}
-
-variable "consul_default_server_configs" {
-  description = "A default list of server config files"
-  type = list(string)
-  default =   ["shared/consul/base.json", "shared/consul/server.json", "shared/consul/retry_aws.json"]
-}
-
-variable "consul_default_client_configs" {
-  description = "A default list of client config files"
-  type = list(string)
-  default =   ["shared/consul/base.json", "shared/consul/retry_aws.json"]
-}
-
-
-variable "vault_server_configs" {
-  description = "A list of lists of config files to upload to the cluster"
-  type        = list(list(string))
-  default     = []
-}
-
-variable "vault_default_server_configs" {
-  description = "A default list of server config files"
-  type = list(string)
-  default =   ["shared/vault/vault.hcl"]
+variable "profile" {
+  description = "A default Nomad/Consul/Vault configuration profile"
+  type        = string
+  default     = ""
 }

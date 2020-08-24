@@ -15,7 +15,7 @@ resource "null_resource" "upload_configs" {
 
   provisioner "file" {
     source      = each.key
-    destination = "/tmp/vault-${basename(each.key)}"
+    destination = "./vault.d/${basename(each.key)}"
   }
 }
 
@@ -33,7 +33,7 @@ resource "null_resource" "install_configs" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo cp /tmp/vault-*.json /etc/vault.d/",
+      "sudo cp ./vault.d/* /etc/vault.d/",
       "sudo systemctl restart vault",
     ]
   }

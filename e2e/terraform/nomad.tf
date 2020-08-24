@@ -1,3 +1,7 @@
+locals {
+  nomad_config_root = "${path.root}/config/nomad/${var.profile}"
+}
+
 module "nomad_server" {
 
   depends_on = [aws_instance.server, module.consul_server]
@@ -9,7 +13,11 @@ module "nomad_server" {
   nomad_sha          = var.nomad_sha
   nomad_local_binary = var.nomad_local_binary
 
-  config_files = count.index < length(var.nomad_server_configs) ? var.nomad_server_configs[count.index] : var.nomad_default_server_configs
+  config_files = compact(setunion(
+    fileset(path.module, "config/nomad/${var.profile}/*.hcl"),
+    fileset(path.module, "config/nomad/${var.profile}/server/*.hcl"),
+    fileset(path.module, "config/nomad/${var.profile}/server/indexed/*${count.index}.hcl"),
+  ))
 
   connection = {
     type        = "ssh"
@@ -33,7 +41,11 @@ module "nomad_client_linux" {
   nomad_sha          = var.nomad_sha
   nomad_local_binary = var.nomad_local_binary
 
-  config_files = count.index < length(var.nomad_client_configs_linux) ? var.nomad_client_configs_linux[count.index] : var.nomad_default_client_configs_linux
+  config_files = compact(setunion(
+    fileset(path.module, "config/nomad/${var.profile}/*.hcl"),
+    fileset(path.module, "config/nomad/${var.profile}/client-linux/*.hcl"),
+    fileset(path.module, "config/nomad/${var.profile}/client-linux/indexed/*${count.index}.hcl"),
+  ))
 
   connection = {
     type        = "ssh"
@@ -57,7 +69,11 @@ module "nomad_client_windows" {
   nomad_sha          = var.nomad_sha
   nomad_local_binary = var.nomad_local_binary
 
-  config_files = count.index < length(var.nomad_client_configs_windows) ? var.nomad_client_configs_windows[count.index] : var.nomad_default_client_configs_windows
+  config_files = compact(setunion(
+    fileset(path.module, "config/nomad/${var.profile}/*.hcl"),
+    fileset(path.module, "config/nomad/${var.profile}/client-windows/*.hcl"),
+    fileset(path.module, "config/nomad/${var.profile}/client-windows/indexed/*${count.index}.hcl"),
+  ))
 
   connection = {
     type        = "ssh"

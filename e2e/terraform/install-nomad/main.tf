@@ -118,7 +118,7 @@ resource "null_resource" "upload_configs" {
 
   provisioner "file" {
     source      = each.key
-    destination = "/tmp/nomad-${basename(each.key)}"
+    destination = "./nomad.d/${basename(each.key)}"
   }
 }
 
@@ -136,7 +136,7 @@ resource "null_resource" "install_configs" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo cp /tmp/nomad-*.hcl /etc/nomad.d/"
+      "sudo cp ./nomad.d/* /etc/nomad.d/"
     ]
   }
 }

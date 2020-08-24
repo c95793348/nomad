@@ -5,7 +5,11 @@ module "vault_server" {
 
   source = "./install-vault"
 
-  config_files = count.index < length(var.vault_server_configs) ? var.vault_server_configs[count.index] : var.vault_default_server_configs
+  config_files = compact(setunion(
+    fileset(path.module, "config/vault/${var.profile}/*.hcl"),
+    fileset(path.module, "config/vault/${var.profile}/server/*.hcl"),
+    fileset(path.module, "config/vault/${var.profile}/server/indexed/*${count.index}.hcl"),
+  ))
 
   connection = {
     type        = "ssh"
