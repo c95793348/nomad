@@ -89,13 +89,13 @@ variable "nomad_client_configs_windows" {
 variable "nomad_default_server_configs" {
   description = "A default list of server config files"
   type        = list(string)
-  default     = ["shared/nomad/base.hcl", "shared/nomad/server.hcl", "shared/nomad/nomad.service"]
+  default     = ["shared/nomad/base.hcl", "shared/nomad/server.hcl"]
 }
 
 variable "nomad_default_client_configs_linux" {
   description = "A default list of linux client config files"
   type        = list(string)
-  default     = ["shared/nomad/base.hcl", "shared/nomad/client.hcl", "shared/nomad/nomad.service"]
+  default     = ["shared/nomad/base.hcl", "shared/nomad/client.hcl"]
 }
 
 variable "nomad_default_client_configs_windows" {

@@ -4,8 +4,6 @@ locals {
   install_script_sha       = "${local._platform_install_prefix}nomad_sha"
   install_script_version   = "${local._platform_install_prefix}nomad_version"
   install_script_binary    = "${local._platform_install_prefix}nomad_binary"
-
-  install_config_script = var.platform == "windows_amd64" ? "C:/opt/install-config.ps1" : "/opt/install-config"
 }
 
 resource "null_resource" "install_nomad_sha" {
@@ -120,7 +118,7 @@ resource "null_resource" "upload_configs" {
 
   provisioner "file" {
     source      = each.key
-    destination = "/tmp/${basename(each.key)}"
+    destination = "/tmp/nomad-${basename(each.key)}"
   }
 }
 
@@ -138,14 +136,7 @@ resource "null_resource" "install_configs" {
 
   provisioner "remote-exec" {
     inline = [
-      #"sudo mv /tmp/install-config ${local.install_config_script}",
-      #"${local.install_config_script}",
-      # TODO: this is temporary until we bake it into the AMI
-      "sudo mkdir -p /etc/nomad.d",
-      "sudo cp /tmp/*.hcl /etc/nomad.d/",
-      "sudo chown -R root:root /etc/nomad.d",
-      "sudo cp /tmp/nomad.service /etc/systemd/system/nomad.service",
+      "sudo cp /tmp/nomad-*.hcl /etc/nomad.d/"
     ]
   }
-
 }
